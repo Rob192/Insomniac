@@ -62,10 +62,13 @@ class StorageFollowers:
     followers = {}
 
     def __init__(self, my_username):
-        if not os.path.exists(my_username):
-            os.makedirs(my_username)
-        self.followers_path = Path(os.getcwd()) / my_username / FILENAME_FOLLOWERS
-        if os.path.exists(self.followers_path):
+        self.storage_folder = Path(os.getcwd()).parent / my_username
+        self.followers_path = self.storage_folder / FILENAME_FOLLOWERS
+
+        if not self.storage_folder.exists():
+            os.makedirs(self.storage_folder)
+
+        if self.followers_path.exists():
             with open(self.followers_path) as json_file:
                 self.followers = json.load(json_file)
 
@@ -89,3 +92,8 @@ class FollowingStatus(Enum):
     NONE = 0
     FOLLOWED = 1
     UNFOLLOWED = 2
+
+
+if __name__ == "__main__":
+    storage = StorageFollowers('test')
+    storage.add_follower('robin')
