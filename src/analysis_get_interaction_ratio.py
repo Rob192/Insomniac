@@ -31,5 +31,6 @@ if __name__ == '__main__':
     sum = df.groupby(pd.Grouper(key = 'last_interaction', freq = 'd'))['is_following'].sum()
 
     print(sum / tot * 100)
+    print('the total number of followers gained with the bot is :'+ str(sum.sum()))
 
     #TODO : wrap this inside nice and neat functions
