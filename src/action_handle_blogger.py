@@ -6,6 +6,7 @@ import uiautomator
 from src.navigation import navigate, Tabs
 from src.storage import FollowingStatus
 from src.utils import *
+from src.comment import comment_picture
 
 
 def handle_blogger(device,
@@ -273,6 +274,7 @@ def _open_photo_and_like(device, row, column, on_like):
         print("Double click worked successfully.")
 
     on_like()
+    comment_picture(device) #TODO : do not comment all pictures !!
     print("Back to profile")
     device.press.back()
     return True
