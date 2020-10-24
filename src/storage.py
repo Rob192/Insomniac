@@ -1,8 +1,9 @@
 import json
-import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 from enum import Enum, unique
 from pathlib import Path
+
+from src.utils import *
 
 FILENAME_INTERACTED_USERS = "interacted_users.json"
 FILENAME_FOLLOWERS = "followers.json"
@@ -10,18 +11,30 @@ USER_LAST_INTERACTION = "last_interaction"
 USER_FOLLOWING_STATUS = "following_status"
 FOLLOWING_DATE = "date_follower_stored"
 
+FILENAME_WHITELIST = "whitelist.txt"
+
 
 class Storage:
-    interacted_users_path = ""
+    interacted_users_path = None
     interacted_users = {}
+    whitelist = []
 
     def __init__(self, my_username):
+        if my_username is None:
+            print(COLOR_FAIL + "No username, thus the script won't get access to interacted users and sessions data" +
+                  COLOR_ENDC)
+            return
+
         if not os.path.exists(my_username):
             os.makedirs(my_username)
         self.interacted_users_path = my_username + "/" + FILENAME_INTERACTED_USERS
         if os.path.exists(self.interacted_users_path):
             with open(self.interacted_users_path) as json_file:
                 self.interacted_users = json.load(json_file)
+        whitelist_path = my_username + "/" + FILENAME_WHITELIST
+        if os.path.exists(whitelist_path):
+            with open(whitelist_path) as file:
+                self.whitelist = [line.rstrip() for line in file]
 
     def check_user_was_interacted(self, username):
         return not self.interacted_users.get(username) is None
@@ -52,9 +65,13 @@ class Storage:
         self.interacted_users[username] = user
         self._update_file()
 
+    def is_user_in_whitelist(self, username):
+        return username in self.whitelist
+
     def _update_file(self):
-        with open(self.interacted_users_path, 'w') as outfile:
-            json.dump(self.interacted_users, outfile, indent=4, sort_keys=False)
+        if self.interacted_users_path is not None:
+            with open(self.interacted_users_path, 'w') as outfile:
+                json.dump(self.interacted_users, outfile, indent=4, sort_keys=False)
 
 
 class StorageFollowers:

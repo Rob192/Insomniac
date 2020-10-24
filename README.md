@@ -2,7 +2,10 @@
 
 # Insomniac
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/alexal1/Insomniac?label=latest%20version)
+![Python](https://img.shields.io/badge/built%20with-Python3-red.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+
+[español](https://github.com/alexal1/Insomniac/blob/master/res/README_es.md) | [português](https://github.com/alexal1/Insomniac/blob/master/res/README_pt_BR.md)
 
 Liking and following automatically on your Android phone/tablet. No root required: it works on [UI Automator](https://developer.android.com/training/testing/ui-automator), which is an official Android UI testing framework.
 
@@ -10,19 +13,21 @@ Liking and following automatically on your Android phone/tablet. No root require
 
 ### How to install
 1. Clone project: `git clone https://github.com/alexal1/Insomniac.git`
-2. Install [uiautomator](https://github.com/xiaocong/uiautomator) and [colorama](https://pypi.org/project/colorama/): `pip3 install uiautomator colorama`
-3. Download and unzip [Android platform tools](https://developer.android.com/studio/releases/platform-tools), move them to a directory where you won't delete them accidentally, e.g.
+2. Go to Insomniac folder: `cd Insomniac`
+3. Install required libraries: `pip3 install -r requirements.txt`
+4. Download and unzip [Android platform tools](https://developer.android.com/studio/releases/platform-tools), move them to a directory where you won't delete them accidentally, e.g.
 ```
 mkdir -p ~/Library/Android/sdk
 mv <path-to-downloads>/platform-tools/ ~/Library/Android/sdk
 ```
-4. [Add platform-tools path to the PATH environment variable](https://github.com/alexal1/Insomniac/wiki/Adding-platform-tools-to-the-PATH-environment-variable). If you do it correctly, terminal / command prompt command `adb devices` will print `List of devices attached`
+5. [Add platform-tools path to the PATH environment variable](https://github.com/alexal1/Insomniac/wiki/Adding-platform-tools-to-the-PATH-environment-variable). If you do it correctly, terminal / command prompt command `adb devices` will print `List of devices attached`
 
 ### How to install on Raspberry Pi OS
 1. Update apt-get: `sudo apt-get update`
 2. Install ADB and Fastboot: `sudo apt-get install -y android-tools-adb android-tools-fastboot`
 3. Clone project: `git clone https://github.com/alexal1/Insomniac.git`
-4. Install [uiautomator](https://github.com/xiaocong/uiautomator) and [colorama](https://pypi.org/project/colorama/): `pip3 install uiautomator colorama`
+4. Go to Insomniac folder: `cd Insomniac`
+5. Install required libraries: `pip3 install -r requirements.txt`
 
 ### Get started
 1. Connect Android device to your computer with a USB cable
@@ -49,53 +54,70 @@ Full list of command line arguments:
   --interact username1 [username2 ...]
                         list of usernames with whose followers you want to
                         interact
-  --likes-count 2       number of likes for each interacted user, 2 by default
+  --likes-count 2-4     number of likes for each interacted user, 2 by
+                        default. It can be a number (e.g. 2) or a range (e.g.
+                        2-4)
   --total-likes-limit 300
                         limit on total amount of likes during the session, 300
                         by default
-  --interactions-count 70
+  --interactions-count 60-80
                         number of interactions per each blogger, 70 by
-                        default. Only successful interactions count
-  --repeat 180          repeat the same session again after N minutes after
-                        completion, disabled by default
+                        default. It can be a number (e.g. 70) or a range (e.g.
+                        60-80). Only successful interactions count
+  --repeat 120-180      repeat the same session again after N minutes after
+                        completion, disabled by default. It can be a number of
+                        minutes (e.g. 180) or a range (e.g. 120-180)
   --follow-percentage 50
                         follow given percentage of interacted users, 0 by
                         default
   --follow-limit 50     limit on amount of follows during interaction with
                         each one user's followers, disabled by default
-  --unfollow 100        unfollow at most given number of users. Only users
+  --unfollow 100-200    unfollow at most given number of users. Only users
                         followed by this script will be unfollowed. The order
-                        is from oldest to newest followings
-  --unfollow-non-followers 100
+                        is from oldest to newest followings. It can be a
+                        number (e.g. 100) or a range (e.g. 100-200)
+  --unfollow-non-followers 100-200
                         unfollow at most given number of users, that don't
                         follow you back. Only users followed by this script
                         will be unfollowed. The order is from oldest to newest
-                        followings
+                        followings. It can be a number (e.g. 100) or a range
+                        (e.g. 100-200)
+  --unfollow-any 100-200
+                        unfollow at most given number of users. The order is
+                        from oldest to newest followings. It can be a number
+                        (e.g. 100) or a range (e.g. 100-200)
+  --min-following 100   minimum amount of followings, after reaching this
+                        amount unfollow stops
   --device 2443de990e017ece
                         device identifier. Should be used only when multiple
                         devices are connected at once
+  --old                 add this flag to use an old version of uiautomator.
+                        Use it only if you experience problems with the
+                        default version
 ```
 
 ### FAQ
-- Can I prevent my phone from falling asleep? Yes. Settings -> Developer Options -> Stay awake.
+- How to stop the script? _Ctrl+C (control+C for Mac)_
+- Can I prevent my phone from falling asleep while the script is working? _Yes. Settings -> Developer Options -> Stay awake._
 - [How to connect Android phone via WiFi?](https://www.patreon.com/posts/connect-android-38655552)
 - [How to run on 2 or more devices at once?](https://www.patreon.com/posts/38683736)
 - [Script crashes with **OSError: RPC server not started!** or **ReadTimeoutError**](https://www.patreon.com/posts/problems-with-to-38702683)
-- [Private accounts are always skipped. How to follow them too?](https://www.patreon.com/posts/enable-private-39097751) **(please join Patreon $5 tier)**
-- [Filter by followers/followings count, ratio, business/non-business](https://www.patreon.com/posts/38826184) **(please join Patreon $5 tier)**
+- [Private accounts are always skipped. How to follow them too?](https://www.patreon.com/posts/enable-private-39097751) **(please join Patreon $10 tier)**
+- [Filter by followers/followings count, ratio, business/non-business](https://www.patreon.com/posts/38826184) **(please join Patreon $10 tier)**
+- [Can I automate removing mass followers from my account? Yes.](https://www.patreon.com/posts/40514622) **(please join Patreon $10 tier)**
 
 ### Analytics
 There also is an analytics tool for this bot. It is a script that builds a report in PDF format. The report contains account's followers growth graphs for different periods. Liking, following and unfollowing actions' amounts are on the same axis to determine bot effectiveness. The report also contains stats of sessions length for different configurations that you've used. All data is taken from `sessions.json` file that's generated during bot's execution.
 <img src="https://raw.githubusercontent.com/alexal1/Insomniac/master/res/analytics_sample.png">
 
-To get access to the analytics tool you have to [join Patreon $5 tier](https://www.patreon.com/insomniac_bot).
+To get access to the analytics tool you have to [join Patreon $10 tier](https://www.patreon.com/insomniac_bot).
 
 ### Features in progress
 - [x] Follow given percentage of interacted users by `--follow-percentage 50`
 - [x] Unfollow given number of users (only those who were followed by the script) by `--unfollow 100`
 - [x] Unfollow given number of non-followers (only those who were followed by the script) by `--unfollow-non-followers 100`
+- [x] Support intervals for likes and interactions count like `--likes-count 2-3`
 - [ ] Add random actions to behave more like a human (watch your own feed, stories, etc.)
-- [ ] Support intervals for likes and interactions count like `--likes-count 2-3`
 - [ ] Interaction by hashtags
 - [ ] Commenting during interaction
 
@@ -105,8 +127,16 @@ There already is [InstaPy](https://github.com/timgrossmann/InstaPy), which works
 That's why need arised in a solution for mobile devices. Instagram can't distinguish bot from a human when it comes to your phone. However, even a human can reach limits when using the app, so don't fail to be careful. Always set `--total-likes-limit` to 300 or less. Also it's better to use `--repeat` to act periodically for 2-3 hours, because Instagram keeps track of how long the app works.
 
 ### Community
-Join our Telegram group
+We have a [Discord server](https://discord.gg/59pUYCw) which is the most convenient place to discuss all bugs, new features, Instagram limits, etc. If you're not familiar with Discord, you can also join our [Telegram chat](https://t.me/insomniac_chat). And finally, all useful info is posted on our [Patreon page](https://www.patreon.com/insomniac_bot). Most posts are available for everyone, but some require joining $10 tier: this is our way to keep evolving and improving the bot.
 
-<a href="https://t.me/insomniac_chat">
-  <img hspace="3" alt="Telegram Group" src="https://raw.githubusercontent.com/alexal1/Insomniac/master/res/telegram.png" width=214/>
-</a>
+<p>
+  <a href="https://discord.gg/59pUYCw">
+    <img hspace="3" alt="Discord Server" src="https://raw.githubusercontent.com/alexal1/Insomniac/master/res/discord.png" height=84/>
+  </a>
+  <a href="https://t.me/insomniac_chat">
+    <img hspace="3" alt="Telegram Chat" src="https://raw.githubusercontent.com/alexal1/Insomniac/master/res/telegram.png" height=84/>
+  </a>
+  <a href="https://www.patreon.com/insomniac_bot">
+    <img hspace="3" alt="Patreon Page" src="https://raw.githubusercontent.com/alexal1/Insomniac/master/res/patreon.png" height=84/>
+  </a>
+</p>
