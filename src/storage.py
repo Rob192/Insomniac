@@ -2,10 +2,13 @@ import json
 import os
 from datetime import datetime, timedelta
 from enum import Enum, unique
+from pathlib import Path
 
 FILENAME_INTERACTED_USERS = "interacted_users.json"
+FILENAME_FOLLOWERS = "followers.json"
 USER_LAST_INTERACTION = "last_interaction"
 USER_FOLLOWING_STATUS = "following_status"
+FOLLOWING_DATE = "date_follower_stored"
 
 
 class Storage:
@@ -54,8 +57,43 @@ class Storage:
             json.dump(self.interacted_users, outfile, indent=4, sort_keys=False)
 
 
+class StorageFollowers:
+    followers_path = ""
+    followers = {}
+
+    def __init__(self, my_username):
+        self.storage_folder = Path(os.getcwd()).parent / my_username
+        self.followers_path = self.storage_folder / FILENAME_FOLLOWERS
+
+        if not self.storage_folder.exists():
+            os.makedirs(self.storage_folder)
+
+        if self.followers_path.exists():
+            with open(self.followers_path) as json_file:
+                self.followers = json.load(json_file)
+
+    def was_already_following(self, username):
+        return not self.followers.get(username) is None
+
+    def add_follower(self, username):
+        follower_info = self.followers.get(username, {})
+        follower_info[FOLLOWING_DATE] = str(datetime.now())
+
+        self.followers[username] = follower_info
+        self._update_file()
+
+    def _update_file(self):
+        with open(self.followers_path, 'w') as outfile:
+            json.dump(self.followers, outfile, indent=4, sort_keys=False)
+
+
 @unique
 class FollowingStatus(Enum):
     NONE = 0
     FOLLOWED = 1
     UNFOLLOWED = 2
+
+
+if __name__ == "__main__":
+    storage = StorageFollowers('test')
+    storage.add_follower('robin')
