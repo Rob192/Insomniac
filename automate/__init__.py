@@ -1,7 +1,7 @@
 import sys
 from insomniac import main
 import json
-from datetime import date
+from datetime import datetime
 
 class AutoInsomniac:
     def __init__(self, account):
@@ -25,6 +25,7 @@ class AutoInsomniac:
         return param['device'], param['list_users']
 
     def use_insomniac(self):
+        self.select_and_save_new_influencer()
         sys.argv = [
             "insomniac.py",
             "--device",
@@ -34,7 +35,7 @@ class AutoInsomniac:
             "--likes-count",
             "6",
             "--total-likes-limit",
-            "124"
+            "1000"
         ]
         main()
 
@@ -51,7 +52,8 @@ class AutoInsomniac:
 
     def save_influencer(self):
         with open(f'./stats/{self.account}.csv', 'a') as f:
-            f.write('\n' + self.current_influencer + ',' + date.today().strftime('%d-%m-%Y'))
+            f.write('\n' + self.current_influencer + ',' + datetime.today().strftime(
+                '%d-%m-%Y') + ',' + datetime.today().strftime('%H:%M'))
         print(f'The influencer used today is saved in: ./stats/{self.account}.csv')
 
 if __name__ == "__main__":
