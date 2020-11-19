@@ -182,6 +182,7 @@ def _iterate_over_followers(device, interaction, is_follow_limit_reached, storag
                 if need_swipe and not pressed_retry:
                     print(COLOR_OKGREEN + "All followers skipped, let's do a swipe" + COLOR_ENDC)
                     list_view.swipe(DeviceFacade.Direction.BOTTOM)
+                    need_swipe = False
                 else:
                     print(COLOR_OKGREEN + "Need to scroll now" + COLOR_ENDC)
                     list_view.scroll(DeviceFacade.Direction.BOTTOM)
