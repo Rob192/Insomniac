@@ -79,7 +79,9 @@ class StorageFollowers:
     followers = {}
 
     def __init__(self, my_username):
-        self.storage_folder = Path(os.getcwd()).parent / my_username
+        self.count_already_following = 0
+        self.storage_folder = Path(os.getcwd()) / my_username
+        print(self.storage_folder)
         self.followers_path = self.storage_folder / FILENAME_FOLLOWERS
 
         if not self.storage_folder.exists():
@@ -90,7 +92,12 @@ class StorageFollowers:
                 self.followers = json.load(json_file)
 
     def was_already_following(self, username):
-        return not self.followers.get(username) is None
+        already_following = not self.followers.get(username) is None
+        if already_following:
+            self.count_already_following += 1
+        else:
+            self.count_already_following = 0
+        return already_following
 
     def add_follower(self, username):
         follower_info = self.followers.get(username, {})
