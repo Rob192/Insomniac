@@ -30,6 +30,7 @@ class AutoInsomniac:
         with open(f'./automate/automate_param/{self.account}.json', 'r') as f:
             param = json.load(f)
         stats = pd.read_csv(Path(f'{self.account}/stats.csv'), index_col='influencer')
+        #TODO create case when this file does not exists
         return param['device'], stats
 
     def select_influencers(self):
@@ -86,6 +87,6 @@ class AutoInsomniac:
         return None
 
 if __name__ == "__main__":
-    ai = AutoInsomniac('flushroyale.le.jeu')
+    ai = AutoInsomniac('charlie_mamas')
     ai.get_follow_stats()
     print('hello')

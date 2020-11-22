@@ -112,7 +112,7 @@ def main_automation(account, on_duration, off_duration):
     print(planning)
     for run_hour in planning:
         scheduler.every().day.at(run_hour).do(run_threaded, ai.use_insomniac, on_duration)
-    scheduler.every().day.at('00:00').do(ai.get_follow_stats())
+    scheduler.every().day.at('00:00').do(ai.get_follow_stats)
     while True:
         scheduler.run_pending()
         time.sleep(1)
