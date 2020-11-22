@@ -16,7 +16,7 @@ def get_planning(start_time, stop_time, on_duration, off_duration):
     off_duration = off_duration * 60
 
     cycle_duration = on_duration + off_duration
-    number_of_cycles = (stop_time - start_time).total_seconds() // cycle_duration
+    number_of_cycles = (stop_time - start_time).total_seconds() // cycle_duration + 1
 
     res = []
     for i in range(int(number_of_cycles)):
