@@ -103,8 +103,8 @@ def run_threaded(job_func, on_duration):
 
 
 def main_automation(account, on_duration, off_duration):
-    start_time = "08:00"
-    stop_time = "21:01"
+    start_time = "07:30"
+    stop_time = "21:00"
 
     ai = AutoInsomniac(account)
     scheduler = SafeScheduler(reschedule_on_failure=False)
@@ -112,7 +112,7 @@ def main_automation(account, on_duration, off_duration):
     print(planning)
     for run_hour in planning:
         scheduler.every().day.at(run_hour).do(run_threaded, ai.use_insomniac, on_duration)
-    scheduler.every().day.at('00:00').do(ai.get_follow_stats)
+    scheduler.every().day.at('22:00').do(ai.get_follow_stats)
     while True:
         scheduler.run_pending()
         time.sleep(1)
